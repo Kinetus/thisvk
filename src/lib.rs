@@ -1,10 +1,12 @@
 use serde::Deserialize;
 pub use vk_method::{Method, Params};
+use async_trait::async_trait;
 
+#[async_trait]
 pub trait API {
     type Error;
 
-    fn method<T>(&self, method: Method) -> Result<T, Self::Error>
+    async fn method<T>(&self, method: Method) -> Result<T, Self::Error>
     where for<'de>
         T: serde::Deserialize<'de>;
 
@@ -45,7 +47,7 @@ impl<'a, A: API> UsersGetBuilder<'a, A> {
         self
     }
 
-    pub fn send(self) -> Result<Vec<User>, A::Error> {
+    pub async fn send(self) -> Result<Vec<User>, A::Error> {
         let mut params = Params::new();
 
         if let Some(value) = self.user_id {
@@ -58,7 +60,7 @@ impl<'a, A: API> UsersGetBuilder<'a, A> {
 
         self.api.method(
             Method::new("users.get", params)
-        )
+        ).await
     }
 }
 
