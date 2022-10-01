@@ -1,5 +1,5 @@
 use serde::Deserialize;
-use vk_method::{Method, Params};
+pub use vk_method::{Method, Params};
 
 pub trait API {
     type Error;
