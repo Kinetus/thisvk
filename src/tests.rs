@@ -11,7 +11,7 @@ pub struct MockError;
 impl API for MockAPI {
     type Error = MockError;
 
-    async fn method<T>(&self, method: Method) -> Result<T, Self::Error>
+    async fn method<T>(&self, _method: Method) -> Result<T, Self::Error>
     where for<'de>
         T: serde::Deserialize<'de>
     {
