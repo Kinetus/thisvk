@@ -1,4 +1,4 @@
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 pub use vk_method::{Method, Params};
 use async_trait::async_trait;
 
@@ -95,7 +95,7 @@ impl<'a, A: API> FriendsGetBuilder<'a, A> {
         self
     }
 
-    pub async fn send(self) -> Result<Vec<UserId>, A::Error> {
+    pub async fn send(self) -> Result<FriendsGetResponse, A::Error> {
         let mut params = Params::new();
 
         if let Some(value) = self.user_id {
@@ -110,6 +110,12 @@ impl<'a, A: API> FriendsGetBuilder<'a, A> {
             Method::new("users.get", params)
         ).await
     }
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct FriendsGetResponse {
+    pub count: u16,
+    pub items: Vec<UserId>
 }
 
 #[allow(dead_code)]
