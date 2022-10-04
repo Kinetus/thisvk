@@ -95,7 +95,7 @@ impl<'a, A: API> FriendsGetBuilder<'a, A> {
         self
     }
 
-    pub async fn send(self) -> Result<Vec<User>, A::Error> {
+    pub async fn send(self) -> Result<Vec<UserId>, A::Error> {
         let mut params = Params::new();
 
         if let Some(value) = self.user_id {
