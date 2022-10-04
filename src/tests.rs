@@ -1,11 +1,19 @@
+use std::fmt::Display;
+
 use serde_json::json;
 
 use super::*;
 
 pub struct MockAPI;
 
-#[derive(Debug)]
+#[derive(Debug, thiserror::Error)]
 pub struct MockError;
+
+impl Display for MockError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "mock error")
+    }
+}
 
 #[async_trait]
 impl API for MockAPI {

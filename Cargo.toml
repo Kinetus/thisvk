@@ -14,3 +14,4 @@ vk_method = "0.2"
 
 [dev-dependencies]
 tokio = { version = "1.0", features = ["macros", "rt"] }
+thiserror = "1.0"

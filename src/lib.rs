@@ -6,7 +6,7 @@ pub type UserId = u32;
 
 #[async_trait]
 pub trait API {
-    type Error;
+    type Error: std::error::Error;
 
     async fn method<T>(&self, method: Method) -> Result<T, Self::Error>
     where for<'de>
@@ -106,9 +106,13 @@ impl<'a, A: API> FriendsGetBuilder<'a, A> {
             params.insert("user_id", value);
         }
 
-        self.api.method(
+        let value: Result<serde_json::Value, A::Error> = self.api.method(
             Method::new("users.get", params)
-        ).await
+        ).await;
+
+        println!("{:?}", value);
+
+        Ok(serde_json::from_value(value.unwrap()).unwrap())
     }
 }
 
