@@ -103,16 +103,12 @@ impl<'a, A: API> FriendsGetBuilder<'a, A> {
         }
 
         if let Some(value) = self.count {
-            params.insert("user_id", value);
+            params.insert("count", value);
         }
 
-        let value: Result<serde_json::Value, A::Error> = self.api.method(
-            Method::new("users.get", params)
-        ).await;
-
-        println!("{:?}", value);
-
-        Ok(serde_json::from_value(value.unwrap()).unwrap())
+        self.api.method(
+            Method::new("friends.get", params)
+        ).await
     }
 }
 
