@@ -22,8 +22,8 @@ pub trait API {
 }
 
 pub struct UsersGetBuilder<'a, A: API> {
-    pub user_ids: Option<Vec<UserId>>,
-    pub user_id: Option<UserId>,
+    pub user_ids: Option<Vec<String>>,
+    pub user_id: Option<String>,
     api: &'a A
 }
 
@@ -36,12 +36,14 @@ impl<'a, A: API> UsersGetBuilder<'a, A> {
         }
     }
 
-    pub fn user_id(mut self, id: UserId) -> Self {
-        self.user_id = Some(id);
+    pub fn user_id(mut self, id: impl ToString) -> Self {
+        self.user_id = Some(id.to_string());
         self
     }
 
-    pub fn user_ids(mut self, mut ids: Vec<UserId>) -> Self {
+    pub fn user_ids(mut self, mut ids: Vec<impl ToString>) -> Self {
+        let mut ids = ids.iter_mut().map(|id| id.to_string()).collect();
+
         match self.user_ids {
             Some(ref mut users) => {
                 users.append(&mut ids)
