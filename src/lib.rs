@@ -123,8 +123,8 @@ pub struct FriendsGetResponse {
 #[allow(dead_code)]
 #[derive(Deserialize, Debug, PartialEq)]
 pub struct User {
-    id: UserId,
-    first_name: String
+    pub id: UserId,
+    pub first_name: String
 }
 
 #[cfg(test)]
