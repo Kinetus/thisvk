@@ -13,11 +13,11 @@ pub trait API {
         T: serde::Deserialize<'de>;
 
     fn users_get(&self) -> UsersGetBuilder<Self> where Self: Sized {
-        UsersGetBuilder::new(&self)
+        UsersGetBuilder::new(self)
     }
 
     fn friends_get(&self) -> FriendsGetBuilder<Self> where Self: Sized {
-        FriendsGetBuilder::new(&self)
+        FriendsGetBuilder::new(self)
     }
 }
 
