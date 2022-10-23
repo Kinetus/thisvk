@@ -24,6 +24,7 @@ pub trait API {
 pub struct UsersGetBuilder<'a, A: API> {
     pub user_ids: Option<Vec<String>>,
     pub user_id: Option<String>,
+    pub fields: Option<Vec<UsersFields>>,
     api: &'a A
 }
 
@@ -32,6 +33,7 @@ impl<'a, A: API> UsersGetBuilder<'a, A> {
         UsersGetBuilder {
             user_ids: None,
             user_id: None,
+            fields: None,
             api
         }
     }
@@ -54,6 +56,11 @@ impl<'a, A: API> UsersGetBuilder<'a, A> {
         }
         self
     }
+    
+    pub fn fields(mut self, fields: Vec<UsersFields>) -> Self {
+        self.fields = Some(fields);
+        self
+    }
 
     pub async fn send(self) -> Result<Vec<User>, A::Error> {
         let mut params = Params::new();
@@ -64,6 +71,10 @@ impl<'a, A: API> UsersGetBuilder<'a, A> {
 
         if let Some(value) = self.user_ids {
             params.insert("user_id", value);
+        }
+
+        if let Some(value) = self.fields {
+            params.insert("fields", value.into_iter().map(|field| field.to_string()).collect::<Vec<String>>());
         }
 
         self.api.method(
@@ -125,6 +136,12 @@ pub struct FriendsGetResponse {
 pub struct User {
     pub id: UserId,
     pub first_name: String
+}
+
+#[derive(strum::Display)]
+#[derive(Serialize)]
+pub enum UsersFields {
+    bdate
 }
 
 #[cfg(test)]
