@@ -135,7 +135,8 @@ pub struct FriendsGetResponse {
 #[derive(Deserialize, Debug, PartialEq)]
 pub struct User {
     pub id: UserId,
-    pub first_name: String
+    pub first_name: String,
+    pub bdate: Option<chrono::naive::NaiveDate>
 }
 
 #[derive(strum::Display)]
