@@ -80,6 +80,8 @@ impl<'a, A: API> UsersGetBuilder<'a, A> {
         if let Some(value) = self.fields {
             params.insert("fields", value.into_iter().map(|field| field.to_string()).collect::<Vec<String>>());
         }
+        
+        println!("{:?}", params);
 
         self.api.method(
             Method::new("users.get", params)
