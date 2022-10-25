@@ -16,9 +16,10 @@ pub fn deserialize<'de, D>(deserializer: D) -> Result<Option<NaiveDate>, D::Erro
 where
     D: Deserializer<'de>,
 {
-    #[derive(Deserialize)]
+    #[derive(Deserialize, Debug)]
     struct Helper(#[serde(with = "vk_date_format")] NaiveDate);
 
     let helper = Option::deserialize(deserializer)?;
-    Ok(helper.map(|Helper(external)| external))
+
+    Ok(helper.map(|Helper(date)| date))
 }

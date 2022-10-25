@@ -1,6 +1,7 @@
 mod vk_date_format;
 mod vk_date_format_opt;
 
+use chrono::NaiveDate;
 use serde::{Deserialize, Serialize};
 pub use vk_method::{Method, Params};
 use async_trait::async_trait;
@@ -139,8 +140,9 @@ pub struct FriendsGetResponse {
 pub struct User {
     pub id: UserId,
     pub first_name: String,
+    #[serde(default)]
     #[serde(with = "vk_date_format_opt")]
-    pub bdate: Option<chrono::naive::NaiveDate>
+    pub bdate: Option<NaiveDate>
 }
 
 #[derive(strum::Display)]

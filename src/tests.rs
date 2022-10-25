@@ -35,11 +35,12 @@ impl API for MockAPI {
 }
 
 #[tokio::test]
-async fn test() {
+async fn mock_api() {
     let api = MockAPI;
 
     assert_eq!(
         api.users_get().user_id(1).user_ids(vec![4,5]).send().await.unwrap(),
-        vec![User {id: 5, first_name: "durov".to_string()}]
+        vec![User {id: 5, first_name: "durov".to_string(), bdate: None}]
     );
 }
+
